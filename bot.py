@@ -13,7 +13,7 @@ TOKEN='748030895:AAGshtffnUAGrFKUBI-rOOA3fKrxfoVldtw'
 
 def start_bot(bot, updtr):
     print('Вызван /start')
-    mytext = """Привет пользователь!
+    mytext = """Привет пользователь!!!!
 
     Я простой бот и понимаю только одну комманду /start
     """
