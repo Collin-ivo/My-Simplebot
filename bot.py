@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import requests
 import urllib3
+import settings
+
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler
@@ -15,7 +17,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     )
 
 
-TOKEN = '748030895:AAGshtffnUAGrFKUBI-rOOA3fKrxfoVldtw'
+
 
 
 def start_bot(bot, update):
@@ -28,7 +30,7 @@ def chat(bot, update):
     update.message.reply_text(text)
 
 def main():
-    updater = Updater(TOKEN)
+    updater = Updater(settings.TELEGRAM_API_KEY)
 
     updater.dispatcher.add_handler(CommandHandler("start", start_bot))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, chat))
