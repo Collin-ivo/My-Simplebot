@@ -11,17 +11,16 @@ from telegram.ext import Filters
 
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
-                    level=logging.INFO,
-                    filename='bot.log'
+logging.basicConfig(handlers=[logging.FileHandler('bot.log', encoding='utf-8')],
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    level=logging.INFO
                     )
-
-
 
 
 
 def start_bot(bot, update):
     mytext = "Привет {}!!!! Я простой бот и понимаю только одну комманду {}".format(update.message.chat.first_name, '/start')
+    logging.info('Пользователь {} нажал /start'.format(update.message.chat.username))
     update.message.reply_text(mytext)
 
 def chat(bot, update):
