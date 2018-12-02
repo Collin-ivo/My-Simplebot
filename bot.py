@@ -19,14 +19,28 @@ logging.basicConfig(handlers=[logging.FileHandler('bot.log', encoding='utf-8')],
 
 
 def start_bot(bot, update):
-    mytext = "Привет {}!!!! Я простой бот и понимаю только одну комманду {}".format(update.message.chat.first_name, '/start')
+    mytext = "Привет {}!!!! Напиши свой возраст".format(update.message.chat.first_name)
     logging.info('Пользователь {} нажал /start'.format(update.message.chat.username))
     update.message.reply_text(mytext)
 
 def chat(bot, update):
-    text = update.message.text
-    logging.info(text)
-    update.message.reply_text(text)
+    try:
+        text = int(update.message.text)
+        logging.info(str(text))
+        if text <= 6:
+            deal = 'Свсем мал еще, в детский садик ходишь а уже в сети чатишься с ботом...'
+        elif text <= 15:
+            deal = 'Школоло =)'
+        elif text <= 20:
+            deal = 'Учишься в ВУЗе значит'
+        else:
+            deal = 'Работаешь на работе значит'
+        update.message.reply_text(deal)
+    except(Exception):
+        update.message.reply_text('Введи свой полный возраст в цифрах!')
+
+
+
 
 def main():
     updater = Updater(settings.TELEGRAM_API_KEY)
