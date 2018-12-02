@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import requests, urllib3, datetime, ephem
+import requests, urllib3, datetime
+import ephem
 
 import settings
 
