@@ -1,6 +1,5 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import requests, urllib3, datetime
+import datetime
 import ephem
 
 import settings
@@ -12,7 +11,6 @@ from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler
 from telegram.ext import Filters
 
-from ask_user import get_answer, answers
 
 import logging
 
@@ -21,19 +19,26 @@ logging.basicConfig(handlers=[logging.FileHandler('bot.log', encoding='utf-8')],
                     level=logging.INFO
                     )
 
-
-
 def start_bot(bot, update):
     mytext = "Привет {}!!!! Напиши свой возраст".format(update.message.chat.first_name)
     logging.info('Пользователь {} нажал /start'.format(update.message.chat.username))
     update.message.reply_text(mytext)
 
-def planet_chat(bot, update):
-    mytext = "Что бы узнать в каком созвездии сейчас находится планета, напиши ее название"
-    logging.info('Пользователь {} нажал /planet'.format(update.message.chat.username))
-    update.message.reply_text(mytext)
 
-def chat(bot, update):
+def planet_comm(bot, update):
+    text = str(update.message.text).split(' ')
+    name_planet = text.pop()
+    if name_planet == 'Mars':
+        planet = ephem.Mars()
+    else:
+        planet = ephem.Uranus()
+    planet.compute(datetime.date.today())
+    update.message.reply_text(ephem.constellation(planet))
+
+
+
+
+def hello_chat(bot, update):
     try:
         text = int(update.message.text)
         logging.info(str(text))
@@ -50,14 +55,12 @@ def chat(bot, update):
         update.message.reply_text('Введи свой полный возраст в цифрах!')
 
 
-
-
 def main():
     updater = Updater(settings.TELEGRAM_API_KEY)
 
     updater.dispatcher.add_handler(CommandHandler("start", start_bot))
-    updater.dispatcher.add_handler(CommandHandler("planet", planet_chat))
-    updater.dispatcher.add_handler(MessageHandler(Filters.text, chat))
+    updater.dispatcher.add_handler(CommandHandler("planet", planet_comm))
+    updater.dispatcher.add_handler(MessageHandler(Filters.text, hello_chat))
 
     updater.start_polling()
     updater.idle()
