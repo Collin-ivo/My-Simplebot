@@ -28,10 +28,7 @@ def start_bot(bot, update):
 def planet_comm(bot, update):
     text = str(update.message.text).split(' ')
     name_planet = text.pop()
-    if name_planet == 'Mars':
-        planet = ephem.Mars()
-    else:
-        planet = ephem.Uranus()
+    planet = getattr(ephem, name_planet)()
     planet.compute(datetime.date.today())
     update.message.reply_text(ephem.constellation(planet))
 
